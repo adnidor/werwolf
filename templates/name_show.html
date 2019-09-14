@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block title %}Play!{% endblock %}
+{% block content %}
+
+<h1>Play!</h1>
+<div class=current_player_indicator>You are: {{ current_player }}</div>
+
+<p class=role_indicator>
+Your role: {{ own_role }}
+</p>
+
+<table class=gameinfo>
+    <tr><td>Number of players:</td><td>{{ num_players }}</td></tr>
+    <tr><td>Numer of werewolves:</td><td>{{ num_werewolves }}</td></tr>
+    <tr><td>Special roles in game:</td><td>
+        <ul>
+            {% for role in used_roles %}
+                <li>{{ role }}</li>
+            {% endfor %}
+        </ul>
+    </td></tr>
+</table>
+
+
+<p>
+<a href={{ url_for('create_game') }}>New game</a>
+</p>
+
+{% endblock %}

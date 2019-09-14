@@ -1,0 +1,21 @@
+{% extends "main.html" %}
+{% block title %}Player select{% endblock %}
+{% block content %}
+
+<h1>Player select</h1>
+
+<p>
+Please select your player:
+<br/>
+<ul class=playerlist>
+{% for player in players %}
+<li><a href=./show/{{ player }}>{{ player }}</a></li>
+{% endfor %}
+</ul>
+</p>
+
+<p>
+You can share <a href={{ gameurl }}>this</a> link
+</p>
+
+{% endblock %}

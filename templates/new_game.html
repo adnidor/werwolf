@@ -1,0 +1,25 @@
+{% extends "main.html" %}
+{% block title %}New Game{% endblock %}
+{% block content %}
+
+<h1>New Game</h1>
+
+<form method=post>
+<h2>Players</h2>
+{% for _ in range(20) %}
+<input type=text name=pname /><br/>
+{% endfor %}
+
+<h2>Roles</h2>
+{% for role in roles %}
+<input type=checkbox name=roles value={{role}} \> {{role}} <br \>
+{% endfor %}
+{%for _ in range(5) %}
+<input type=text name=roles placeholder=custom /><br/>
+{% endfor %}
+
+<br \>
+
+<input type=submit value="Create Game" />
+</form>
+{% endblock %}
