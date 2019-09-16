@@ -11,7 +11,7 @@ EXTRA_ROLES = [ "Seherin", "Hexe", "Amor", "Jäger" ]
 WEREWOLVE_PERCENTAGE = 20
 MIN_PLAYERS = 5
 
-class NotEnoughPlayersError(Exception):
+class ApplicationError(Exception):
     pass
 
 @app.route("/")
@@ -27,19 +27,20 @@ def create_game():
 
     num_players = len(pnames)
     if not num_players >= MIN_PLAYERS:
-        raise NotEnoughPlayersError
+        raise ApplicationError("Not enough players, you need at least {}".format(MIN_PLAYERS))
 
     num_werewolves = round(num_players * (WEREWOLVE_PERCENTAGE / 100))
+    if num_werewolves + len(used_roles) > num_players:
+        raise ApplicationError("Too many roles")
+
     card_stack = []
     card_stack.extend([ "Werwolf" ] * num_werewolves)
     card_stack.extend(used_roles)
     while len(card_stack) < num_players:
         card_stack.append("Dorfbewohner")
 
-    pprint(card_stack)
     assert len(card_stack) == num_players
     shuffle(card_stack)
-    pprint(card_stack)
 
     mapping = {}
     for i, player in enumerate(pnames):
@@ -64,10 +65,10 @@ def name_show(gameid, player):
                                              num_players=len(games[str(gameid)]["mapping"]),
                                              num_werewolves=games[str(gameid)]["num_werewolves"])
 
-#@app.errorhandler(KeyError)
-#def not_found(error):
-#    return "<h1>Not Found</h1>Object not found <br/> <a href={}>home</a>".format(url_for("create_game")), 404
-
-@app.errorhandler(NotEnoughPlayersError)
+@app.errorhandler(KeyError)
 def not_found(error):
-    return "<h1>Not Enough Players</h1>You need at least {} players to play Werewolves<br/> <a href={}>home</a>".format(MIN_PLAYERS, url_for("create_game")), 404
+    return "<h1>Not Found</h1>Object not found <br/> <a href={}>home</a>".format(url_for("create_game")), 404
+
+@app.errorhandler(ApplicationError)
+def application_error(error):
+    return "<h1>Error</h1>{}<br/> <a href={}>home</a>".format(error.args[0], url_for("create_game")), 500
