@@ -5,12 +5,28 @@
 <h1>New Game</h1>
 
 <form method=post>
+
+<div class=flexcontainer>
+
+<div id=settings class=flexchild>
+<h2>Settings</h2>
+
+<table>
+<tr><td>Minimum players</td><td>{{ minimum_players }}</td></tr>
+<tr><td>Percentage of werewolves</td><td>{{ werewolve_percentage }}</td></tr>
+</table>
+</div>
+
+
+<div id=players class=flexchild>
 <h2>Players</h2>
 
 {% for _ in range(20) %}
 <input type=text name=pname /><br/>
 {% endfor %}
+</div>
 
+<div id=roles class=flexchild>
 <h2>Roles</h2>
 {% for role in roles %}
 <input type=checkbox name=roles value={{role}} \> {{role}} <br \>
@@ -18,10 +34,11 @@
 {%for _ in range(5) %}
 <input type=text name=roles placeholder=custom /><br/>
 {% endfor %}
+</div>
 
-<br \>
+</div>
 
 <input type=submit value="Create Game" />
-</form>
 
+</form>
 {% endblock %}

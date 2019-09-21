@@ -16,7 +16,7 @@ class ApplicationError(Exception):
 
 @app.route("/")
 def new_game():
-    return render_template("new_game.html", roles=EXTRA_ROLES)
+    return render_template("new_game.html", roles=EXTRA_ROLES, minimum_players=MIN_PLAYERS, werewolve_percentage=WEREWOLVE_PERCENTAGE)
 
 @app.route("/", methods=["post"])
 def create_game():
