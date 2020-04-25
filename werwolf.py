@@ -65,6 +65,13 @@ def name_show(gameid, player):
                                              num_players=len(games[str(gameid)]["mapping"]),
                                              num_werewolves=games[str(gameid)]["num_werewolves"])
 
+@app.route("/game/<uuid:gameid>/show_gamemaster")
+def gamemaster(gameid):
+    return render_template("gamemaster.html", mapping=games[str(gameid)]["mapping"],
+                                              used_roles=games[str(gameid)]["used_roles"],
+                                              num_players=len(games[str(gameid)]["mapping"]),
+                                              num_werewolves=games[str(gameid)]["num_werewolves"])
+
 @app.errorhandler(KeyError)
 def not_found(error):
     return "<h1>Not Found</h1>Object not found <br/> <a href={}>home</a>".format(url_for("create_game")), 404
